@@ -1,0 +1,12 @@
+{
+	"cmake.generator": "Ninja",
+	"cmake.configureArgs": [
+		"-DGCC_PREFIX=D:/apps/dev/arm/gcc-arm-none-eabi-10-2020-q4-major", 
+		"-DCMAKE_TOOLCHAIN_FILE=D:/programming/vscode/samd21-playground-cmake-toolchain/toolchain-arm-none-eabi-samd21.cmake",
+		"-DASF_PREFIX=D:/apps/dev/arm/xdk-asf-3.49.1",
+		"-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+		"-DCMAKE_VERBOSE_MAKEFILE=ON"
+	],
+	"cmake.buildDirectory": "${workspaceFolder}/build-${buildType}",
+	"cmake.configureOnOpen": true
+}

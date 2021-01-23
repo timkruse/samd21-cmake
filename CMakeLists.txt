@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.19)
+
+set(ASF_PREFIX "" CACHE PATH "Path to the root of the Atmel Software Framework (ASF)")
+
+if (ASF_PREFIX STREQUAL "")
+	message(FATAL_ERROR "ASF_PREFIX not set - required")
+endif ()
+
+project(samd21-cmake-toolchain C)
+
+add_compile_definitions("__SAMD21J18A__")
+
+include_directories(
+	${ASF_PREFIX}/thirdparty/CMSIS/Include 
+	${ASF_PREFIX}/sam0/utils/cmsis/samd21/source
+	${ASF_PREFIX}/sam0/utils/cmsis/samd21/include
+)
+
+set(TARGET samd21playground)
+
+add_executable(${TARGET} 
+main.c 
+${ASF_PREFIX}/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c
+${ASF_PREFIX}/sam0/utils/cmsis/samd21/source/system_samd21.c
+${ASF_PREFIX}/sam0/utils/syscalls/gcc/syscalls.c
+)
+
+# Without --gc-sections the linker complains about not finding __bss_start__
+target_link_options(${TARGET} PUBLIC "LINKER:-static,--script,${ASF_PREFIX}/sam0/utils/linker_scripts/samd21/gcc/samd21j18a_flash.ld,-Map,${TARGET}.map,--cref,--gc-sections,--demangle")

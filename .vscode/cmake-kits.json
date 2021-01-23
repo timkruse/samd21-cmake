@@ -1,0 +1,9 @@
+[
+	{
+		"name": "gcc-arm-none-eabi-10-2020-q4-major",
+		"compilers": {
+		  "C": "D:/apps/dev/arm/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc.exe",
+		  "CXX": "D:/apps/dev/arm/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-g++.exe"
+		}
+	  }
+]
