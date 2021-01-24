@@ -8,32 +8,20 @@
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR SAMD21)
 
-# Set a toolchain path. You only need to set this if the toolchain isn't in your system path.
-# set(GCC_PREFIX "" CACHE PATH "Path to the root of the cross compiler (gcc)" FORCE)
-if (GCC_PREFIX STREQUAL "")
-    message(FATAL_ERROR "GCC_PREFIX not set - required. (Set before -DCMAKE_TOOLCHAIN_FILE")
+if(DEFINED CMAKE_C_COMPILER)
+    get_filename_component(CROSS_COMPILE "${CMAKE_C_COMPILER}" DIRECTORY)
+
+    # The toolchain prefix for all toolchain executables
+    set(CROSS_COMPILE ${CROSS_COMPILE}/arm-none-eabi-)
+
+    # specify the cross compiler. We force the compiler so that CMake doesn't
+    # attempt to build a simple test program as this will fail without us using
+    # the -nostartfiles option on the command line
+
+    set( CMAKE_CXX_COMPILER ${CROSS_COMPILE}g++.exe )
+    set( CMAKE_C_COMPILER ${CROSS_COMPILE}gcc.exe )
+    set( CMAKE_ASM_COMPILER ${CROSS_COMPILE}gcc.exe )
 endif()
-
-# append trailing slash if not existing
-if(NOT GCC_PREFIX MATCHES "/$")
-    string(APPEND GCC_PREFIX "/")
-endif()
-
-# append subfolder bin
-if(NOT GCC_PREFIX MATCHES "bin/$")
-    string(APPEND GCC_PREFIX "bin/")
-endif()
-
-# The toolchain prefix for all toolchain executables
-set(CROSS_COMPILE ${GCC_PREFIX}arm-none-eabi-)
-
-# specify the cross compiler. We force the compiler so that CMake doesn't
-# attempt to build a simple test program as this will fail without us using
-# the -nostartfiles option on the command line
-
-set( CMAKE_CXX_COMPILER ${CROSS_COMPILE}g++.exe )
-set( CMAKE_C_COMPILER ${CROSS_COMPILE}gcc.exe )
-set( CMAKE_ASM_COMPILER ${CROSS_COMPILE}gcc.exe )
 
 # Because the cross-compiler cannot directly generate a binary without complaining, just test
 # compiling a static library instead of an executable program
