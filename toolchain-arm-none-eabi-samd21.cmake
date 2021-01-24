@@ -43,13 +43,10 @@ set( CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY )
 # whole project. Otherwise, this does not get set into the CACHE and therefore
 # the build doesn't know what the OBJCOPY filepath is
 
-set( CMAKE_OBJCOPY      ${GCC_PREFIX}${CROSS_COMPILE}objcopy
-    CACHE FILEPATH "The toolchain objcopy command " FORCE )
-
-set( CMAKE_OBJDUMP      ${GCC_PREFIX}${CROSS_COMPILE}objdump
-CACHE FILEPATH "The toolchain objdump command " FORCE )
-
-set( CMAKE_SIZE ${GCC_PREFIX}${CROSS_COMPILE}size CACHE FILEPATH "The toolchain size command " FORCE )
+set( CMAKE_OBJCOPY  ${CROSS_COMPILE}objcopy    CACHE FILEPATH "The toolchain objcopy command " FORCE )
+set( CMAKE_OBJDUMP  ${CROSS_COMPILE}objdump    CACHE FILEPATH "The toolchain objdump command " FORCE )
+set( CMAKE_SIZE     ${CROSS_COMPILE}size       CACHE FILEPATH "The toolchain size command " FORCE )
+set( CMAKE_NM       ${CROSS_COMPILE}nm         CACHE FILEPATH "The toolchain nm command " FORCE )
 
 # Set the common build flags
 

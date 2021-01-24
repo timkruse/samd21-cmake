@@ -29,3 +29,9 @@ target_compile_features(${TARGET} PRIVATE cxx_std_11)
 
 # Without --gc-sections the linker complains about not finding __bss_start__
 target_link_options(${TARGET} PUBLIC "LINKER:-static,--script,${ASF_PREFIX}/sam0/utils/linker_scripts/samd21/gcc/samd21j18a_flash.ld,-Map,${TARGET}.map,--cref,--gc-sections,--demangle")
+
+# Create Assembly file, print size and symbol table
+add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_NM} --demangle --format=sysv --print-size ${TARGET} > ${TARGET}.nm)
+add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_SIZE} ${TARGET} > ${TARGET}.size)
+add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_SIZE} --format=sysv --radix=16 ${TARGET} >> ${TARGET}.size)
+add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_OBJDUMP} -h -S ${TARGET} >> ${TARGET}.S)
