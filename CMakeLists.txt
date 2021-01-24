@@ -6,7 +6,7 @@ if (ASF_PREFIX STREQUAL "")
 	message(FATAL_ERROR "ASF_PREFIX not set - required")
 endif ()
 
-project(samd21-cmake-toolchain C)
+project(samd21-cmake-toolchain)
 
 add_compile_definitions("__SAMD21J18A__")
 
@@ -19,11 +19,13 @@ include_directories(
 set(TARGET samd21playground)
 
 add_executable(${TARGET} 
-main.c 
+main.cpp
 ${ASF_PREFIX}/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c
 ${ASF_PREFIX}/sam0/utils/cmsis/samd21/source/system_samd21.c
 ${ASF_PREFIX}/sam0/utils/syscalls/gcc/syscalls.c
 )
+
+target_compile_features(${TARGET} PRIVATE cxx_std_11)
 
 # Without --gc-sections the linker complains about not finding __bss_start__
 target_link_options(${TARGET} PUBLIC "LINKER:-static,--script,${ASF_PREFIX}/sam0/utils/linker_scripts/samd21/gcc/samd21j18a_flash.ld,-Map,${TARGET}.map,--cref,--gc-sections,--demangle")

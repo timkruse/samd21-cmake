@@ -53,7 +53,8 @@ set( CMAKE_SIZE ${GCC_PREFIX}${CROSS_COMPILE}size CACHE FILEPATH "The toolchain 
 
 # Set the common build flags
 
-# Set the CMAKE C flags (which should also be used by the assembler!
+# Set the CMAKE Compiler flags
+# Since the toolchain file is executed twice, check if it has been set already
 if(NOT DEFINED TOOLCHAIN_COMPILER_FLAGS)
     list(APPEND TOOLCHAIN_COMMON_FLAGS
         "-ffreestanding"
@@ -73,15 +74,23 @@ if(NOT DEFINED TOOLCHAIN_COMPILER_FLAGS)
         "-Wno-unused-parameter"
     )
 
+    list(APPEND TOOLCHAIN_CXX_FLAGS
+        "-fno-exceptions"
+        "-fno-rtti"
+    )
+
     list(APPEND TOOLCHAIN_COMPILER_FLAGS ${TOOLCHAIN_ARCH_FLAGS} 
                                         ${TOOLCHAIN_WARNING_FLAGS} 
                                         ${TOOLCHAIN_COMMON_FLAGS}
                                         )
                                         
+    string(REPLACE ";" " " CMAKE_ASM_FLAGS "${TOOLCHAIN_COMPILER_FLAGS}")
     string(REPLACE ";" " " CMAKE_C_FLAGS "${TOOLCHAIN_COMPILER_FLAGS}")
+    string(REPLACE ";" " " CMAKE_CXX_FLAGS "${TOOLCHAIN_COMPILER_FLAGS} ${TOOLCHAIN_CXX_FLAGS}")
 endif()
 
 
 
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" CACHE STRING "" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
