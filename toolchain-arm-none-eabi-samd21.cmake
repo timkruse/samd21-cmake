@@ -18,9 +18,9 @@ if(DEFINED CMAKE_C_COMPILER)
     # attempt to build a simple test program as this will fail without us using
     # the -nostartfiles option on the command line
 
-    set( CMAKE_CXX_COMPILER ${CROSS_COMPILE}g++.exe )
-    set( CMAKE_C_COMPILER ${CROSS_COMPILE}gcc.exe )
-    set( CMAKE_ASM_COMPILER ${CROSS_COMPILE}gcc.exe )
+    set( CMAKE_CXX_COMPILER ${CROSS_COMPILE}g++ )
+    set( CMAKE_C_COMPILER ${CROSS_COMPILE}gcc )
+    set( CMAKE_ASM_COMPILER ${CROSS_COMPILE}gcc )
 endif()
 
 # Because the cross-compiler cannot directly generate a binary without complaining, just test
